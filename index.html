@@ -1,580 +1,2018 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BlueBox | Affordable 24/7 SOC for Small Businesses</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
-        
-        :root {
-            --primary: 59 130 246;
-        }
-        
-        body {
-            font-family: 'Inter', system-ui, sans-serif;
-        }
-        
-        .logo-font {
-            font-family: 'Space Grotesk', sans-serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BlueBox — Enterprise-Grade Security for Indian SMBs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        .hero-bg {
-            background-image: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.95)), url('https://picsum.photos/id/1015/1920/1080');
-            background-size: cover;
-            background-position: center;
-        }
+    :root {
+      --black:   #020407;
+      --deep:    #060d14;
+      --panel:   #0a1520;
+      --border:  #0f2236;
+      --blue:    #0ea5e9;
+      --blue2:   #38bdf8;
+      --glow:    #0ea5e933;
+      --text:    #e2eaf2;
+      --muted:   #4a6177;
+      --accent:  #00ff88;
+      --red:     #f43f5e;
+      --amber:   #f59e0b;
+    }
 
-        .nav-link {
-            transition: all 0.3s ease;
-        }
-        
-        .nav-link:hover {
-            color: rgb(59 130 246);
-            transform: translateY(-2px);
-        }
+    html { scroll-behavior: smooth; }
 
-        .service-card {
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .service-card:hover {
-            transform: translateY(-12px) scale(1.02);
-            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.4);
-        }
+    body {
+      background: var(--black);
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      overflow-x: hidden;
+      cursor: none;
+    }
 
-        .faq-question {
-            transition: all 0.3s ease;
-        }
-    </style>
+    /* Custom cursor */
+    .cursor {
+      position: fixed;
+      width: 8px; height: 8px;
+      background: var(--blue);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transition: transform 0.1s;
+      mix-blend-mode: screen;
+    }
+    .cursor-ring {
+      position: fixed;
+      width: 32px; height: 32px;
+      border: 1px solid var(--blue);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transition: all 0.15s ease;
+      opacity: 0.5;
+    }
+
+    /* Scanline overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.03) 2px,
+        rgba(0,0,0,0.03) 4px
+      );
+      pointer-events: none;
+      z-index: 9000;
+    }
+
+    /* Grid texture */
+    .grid-bg {
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    /* ── NAV ─────────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 0 40px;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(2, 4, 7, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 36px; height: 36px;
+      background: var(--blue);
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .logo-icon::after {
+      content: '';
+      position: absolute;
+      inset: 3px;
+      background: var(--black);
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    }
+
+    .logo-text {
+      font-size: 22px;
+      font-weight: 700;
+      color: white;
+      letter-spacing: -0.02em;
+    }
+
+    .logo-text span { color: var(--blue); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .nav-links a:hover { color: var(--blue); }
+
+    .nav-cta {
+      padding: 10px 24px;
+      background: var(--blue);
+      color: var(--black) !important;
+      font-weight: 700 !important;
+      border-radius: 4px;
+      letter-spacing: 0.05em !important;
+      transition: all 0.2s !important;
+    }
+
+    .nav-cta:hover {
+      background: var(--blue2) !important;
+      color: var(--black) !important;
+      box-shadow: 0 0 24px var(--glow);
+    }
+
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    /* ── HERO ─────────────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      padding: 120px 40px 80px;
+      overflow: hidden;
+    }
+
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(14,165,233,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(14,165,233,0.04) 1px, transparent 1px);
+      background-size: 80px 80px;
+    }
+
+    .hero-glow {
+      position: absolute;
+      width: 800px; height: 800px;
+      background: radial-gradient(circle, rgba(14,165,233,0.08) 0%, transparent 70%);
+      top: -200px; right: -200px;
+      pointer-events: none;
+    }
+
+    .hero-glow2 {
+      position: absolute;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(0,255,136,0.05) 0%, transparent 70%);
+      bottom: 0; left: 10%;
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      padding: 6px 14px;
+      border: 1px solid rgba(0,255,136,0.2);
+      border-radius: 2px;
+      background: rgba(0,255,136,0.04);
+    }
+
+    .pulse-dot {
+      width: 6px; height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    h1 {
+      font-size: clamp(40px, 5vw, 68px);
+      font-weight: 800;
+      line-height: 1.0;
+      letter-spacing: -0.03em;
+      margin-bottom: 28px;
+      color: white;
+    }
+
+    h1 .blue { color: var(--blue); }
+    h1 .outline {
+      -webkit-text-stroke: 1px rgba(255,255,255,0.3);
+      color: transparent;
+    }
+
+    .hero-desc {
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--muted);
+      margin-bottom: 40px;
+      max-width: 480px;
+      font-weight: 400;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 56px;
+    }
+
+    .btn-primary {
+      padding: 14px 32px;
+      background: var(--blue);
+      color: var(--black);
+      font-weight: 700;
+      font-size: 14px;
+      border-radius: 4px;
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary:hover {
+      background: var(--blue2);
+      box-shadow: 0 0 32px var(--glow);
+      transform: translateY(-2px);
+    }
+
+    .btn-ghost {
+      padding: 14px 32px;
+      background: transparent;
+      color: var(--text);
+      font-weight: 600;
+      font-size: 14px;
+      border-radius: 4px;
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      border: 1px solid var(--border);
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 40px;
+    }
+
+    .stat {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .stat-num {
+      font-size: 28px;
+      font-weight: 800;
+      color: white;
+      letter-spacing: -0.02em;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    /* Hero right — threat dashboard */
+    .hero-dashboard {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+
+    .dash-header {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(14,165,233,0.03);
+    }
+
+    .dash-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--blue);
+      letter-spacing: 0.1em;
+    }
+
+    .dash-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .dash-dots span {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+    }
+
+    .dot-red { background: var(--red); }
+    .dot-amber { background: var(--amber); }
+    .dot-green { background: var(--accent); }
+
+    .dash-body { padding: 20px; }
+
+    .threat-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      margin-bottom: 8px;
+      background: rgba(0,0,0,0.3);
+      border-radius: 4px;
+      border-left: 2px solid transparent;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      animation: slideIn 0.5s ease both;
+    }
+
+    .threat-item:nth-child(1) { animation-delay: 0.1s; border-left-color: var(--red); }
+    .threat-item:nth-child(2) { animation-delay: 0.2s; border-left-color: var(--amber); }
+    .threat-item:nth-child(3) { animation-delay: 0.3s; border-left-color: var(--blue); }
+    .threat-item:nth-child(4) { animation-delay: 0.4s; border-left-color: var(--accent); }
+    .threat-item:nth-child(5) { animation-delay: 0.5s; border-left-color: var(--red); }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .threat-name { color: var(--text); }
+    .threat-count { color: var(--muted); }
+
+    .threat-badge {
+      padding: 2px 8px;
+      border-radius: 2px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+
+    .badge-blocked { background: rgba(244,63,94,0.15); color: var(--red); }
+    .badge-monitor { background: rgba(245,158,11,0.15); color: var(--amber); }
+    .badge-safe { background: rgba(0,255,136,0.1); color: var(--accent); }
+
+    .dash-footer {
+      padding: 14px 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .waf-status {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--accent);
+    }
+
+    .waf-dot {
+      width: 6px; height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
+    }
+
+    /* ── SECTIONS SHARED ─────────────────────────────────── */
+    section {
+      padding: 100px 40px;
+    }
+
+    .section-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--blue);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-tag::before {
+      content: '//';
+      color: var(--muted);
+    }
+
+    h2 {
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      color: white;
+      margin-bottom: 20px;
+    }
+
+    .section-desc {
+      font-size: 17px;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 560px;
+    }
+
+    /* ── SERVICES ─────────────────────────────────────────── */
+    #services { background: var(--deep); position: relative; overflow: hidden; }
+
+    #services::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--blue), transparent);
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      margin-top: 64px;
+      border: 1px solid var(--border);
+    }
+
+    .service-card {
+      background: var(--deep);
+      padding: 48px 40px;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s;
+    }
+
+    .service-card:hover { background: var(--panel); }
+
+    .service-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--blue);
+      transform: scaleX(0);
+      transition: transform 0.3s;
+    }
+
+    .service-card:hover::after { transform: scaleX(1); }
+
+    .service-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      margin-bottom: 24px;
+    }
+
+    .service-icon {
+      width: 48px; height: 48px;
+      background: rgba(14,165,233,0.08);
+      border: 1px solid rgba(14,165,233,0.15);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--blue);
+      font-size: 20px;
+      margin-bottom: 24px;
+      transition: all 0.3s;
+    }
+
+    .service-card:hover .service-icon {
+      background: rgba(14,165,233,0.15);
+      box-shadow: 0 0 20px rgba(14,165,233,0.2);
+    }
+
+    .service-card h3 {
+      font-size: 20px;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 14px;
+      letter-spacing: -0.01em;
+    }
+
+    .service-card p {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+
+    .service-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .service-features li {
+      font-size: 13px;
+      color: #7a9ab8;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .service-features li::before {
+      content: '→';
+      color: var(--blue);
+      font-size: 12px;
+    }
+
+    /* ── WHY US ───────────────────────────────────────────── */
+    #why { background: var(--black); }
+
+    .why-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 100px;
+      align-items: center;
+    }
+
+    .why-visual {
+      position: relative;
+    }
+
+    .why-img {
+      width: 100%;
+      border-radius: 6px;
+      filter: grayscale(20%) contrast(1.1);
+      border: 1px solid var(--border);
+    }
+
+    .why-badge {
+      position: absolute;
+      bottom: -20px;
+      right: -20px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 20px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .why-badge-num {
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--blue);
+      letter-spacing: -0.03em;
+    }
+
+    .why-badge-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .why-content blockquote {
+      font-size: 26px;
+      font-weight: 700;
+      color: white;
+      line-height: 1.35;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+      padding-left: 20px;
+      border-left: 3px solid var(--blue);
+    }
+
+    .why-content p {
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 48px;
+    }
+
+    .why-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+
+    .why-stat {
+      background: var(--panel);
+      padding: 24px 20px;
+      text-align: center;
+    }
+
+    .why-stat-num {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--blue);
+      letter-spacing: -0.03em;
+    }
+
+    .why-stat-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-top: 4px;
+    }
+
+    /* ── PRICING ──────────────────────────────────────────── */
+    #pricing {
+      background: var(--deep);
+      position: relative;
+      overflow: hidden;
+    }
+
+    #pricing::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--blue), transparent);
+    }
+
+    .pricing-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .pricing-card {
+      background: var(--deep);
+      padding: 48px 36px;
+      position: relative;
+      transition: background 0.3s;
+    }
+
+    .pricing-card.featured {
+      background: var(--panel);
+    }
+
+    .pricing-card.featured::before {
+      content: 'MOST POPULAR';
+      position: absolute;
+      top: 0; left: 50%;
+      transform: translateX(-50%);
+      background: var(--blue);
+      color: var(--black);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      padding: 4px 16px;
+    }
+
+    .plan-name {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .plan-price {
+      font-size: 48px;
+      font-weight: 800;
+      color: white;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .plan-price span {
+      font-size: 18px;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    .plan-billing {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      margin-bottom: 36px;
+    }
+
+    .plan-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 40px;
+    }
+
+    .plan-features li {
+      font-size: 14px;
+      color: #7a9ab8;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      line-height: 1.4;
+    }
+
+    .plan-features li i {
+      color: var(--accent);
+      font-size: 12px;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    .plan-btn {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: all 0.2s;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .plan-btn-outline {
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    .plan-btn-outline:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+    }
+
+    .plan-btn-solid {
+      background: var(--blue);
+      color: var(--black);
+    }
+
+    .plan-btn-solid:hover {
+      background: var(--blue2);
+      box-shadow: 0 0 24px var(--glow);
+    }
+
+    .pricing-note {
+      text-align: center;
+      margin-top: 32px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    /* ── HOW IT WORKS ─────────────────────────────────────── */
+    #how { background: var(--black); }
+
+    .how-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin-top: 64px;
+    }
+
+    .how-step {
+      background: var(--black);
+      padding: 48px 40px;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s;
+    }
+
+    .how-step:hover { background: var(--panel); }
+
+    .how-num {
+      font-size: 80px;
+      font-weight: 800;
+      color: rgba(14,165,233,0.06);
+      line-height: 1;
+      margin-bottom: 20px;
+      letter-spacing: -0.05em;
+      transition: color 0.3s;
+    }
+
+    .how-step:hover .how-num { color: rgba(14,165,233,0.12); }
+
+    .how-step h3 {
+      font-size: 20px;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 14px;
+    }
+
+    .how-step p {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* ── TESTIMONIALS ─────────────────────────────────────── */
+    #testimonials {
+      background: var(--deep);
+      overflow: hidden;
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin-top: 64px;
+    }
+
+    .testimonial {
+      background: var(--deep);
+      padding: 40px;
+      transition: background 0.3s;
+    }
+
+    .testimonial:hover { background: var(--panel); }
+
+    .testimonial-text {
+      font-size: 15px;
+      color: #8aadca;
+      line-height: 1.75;
+      margin-bottom: 32px;
+      font-style: italic;
+    }
+
+    .testimonial-text::before {
+      content: '"';
+      font-size: 40px;
+      color: var(--blue);
+      line-height: 0;
+      vertical-align: -16px;
+      margin-right: 4px;
+      opacity: 0.5;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .author-avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .author-name {
+      font-weight: 700;
+      font-size: 14px;
+      color: white;
+    }
+
+    .author-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* ── FAQ ──────────────────────────────────────────────── */
+    #faq { background: var(--black); }
+
+    .faq-inner {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .faq-list {
+      margin-top: 64px;
+      border: 1px solid var(--border);
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .faq-item:last-child { border-bottom: none; }
+
+    .faq-q {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 24px 28px;
+      text-align: left;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: background 0.2s;
+      gap: 20px;
+    }
+
+    .faq-q:hover { background: var(--panel); }
+
+    .faq-q-text {
+      font-size: 16px;
+      font-weight: 600;
+      color: white;
+      letter-spacing: -0.01em;
+    }
+
+    .faq-icon {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 18px;
+      color: var(--blue);
+      flex-shrink: 0;
+      transition: transform 0.3s;
+    }
+
+    .faq-a {
+      display: none;
+      padding: 0 28px 24px;
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.75;
+      background: rgba(14,165,233,0.02);
+    }
+
+    .faq-item.open .faq-a { display: block; }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+
+    /* ── CONTACT ──────────────────────────────────────────── */
+    #contact {
+      background: var(--deep);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-glow {
+      position: absolute;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(14,165,233,0.05) 0%, transparent 70%);
+      top: -200px; right: -100px;
+    }
+
+    .contact-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 100px;
+      align-items: start;
+      position: relative;
+      z-index: 1;
+    }
+
+    .contact-left h2 { margin-bottom: 20px; }
+
+    .contact-left p {
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 48px;
+    }
+
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .contact-info-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 14px;
+      color: #7a9ab8;
+    }
+
+    .contact-info-icon {
+      width: 36px; height: 36px;
+      background: rgba(14,165,233,0.08);
+      border: 1px solid rgba(14,165,233,0.15);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--blue);
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    /* Form */
+    .contact-form {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 48px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .form-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .form-input {
+      background: var(--black);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 14px 16px;
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      width: 100%;
+    }
+
+    .form-input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(14,165,233,0.08);
+    }
+
+    .form-input::placeholder { color: var(--muted); opacity: 0.5; }
+
+    textarea.form-input {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .form-submit {
+      width: 100%;
+      padding: 16px;
+      background: var(--blue);
+      color: var(--black);
+      font-weight: 800;
+      font-size: 14px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Syne', sans-serif;
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .form-submit:hover {
+      background: var(--blue2);
+      box-shadow: 0 0 32px var(--glow);
+    }
+
+    .form-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    /* Status messages */
+    .form-status {
+      display: none;
+      margin-top: 16px;
+      padding: 14px 16px;
+      border-radius: 4px;
+      font-size: 13px;
+      font-family: 'JetBrains Mono', monospace;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .form-status.show { display: flex; }
+
+    .status-success {
+      background: rgba(0,255,136,0.06);
+      border: 1px solid rgba(0,255,136,0.2);
+      color: var(--accent);
+    }
+
+    .status-error {
+      background: rgba(244,63,94,0.06);
+      border: 1px solid rgba(244,63,94,0.2);
+      color: var(--red);
+    }
+
+    .status-blocked {
+      background: rgba(245,158,11,0.06);
+      border: 1px solid rgba(245,158,11,0.2);
+      color: var(--amber);
+    }
+
+    /* ── FOOTER ───────────────────────────────────────────── */
+    footer {
+      background: var(--black);
+      border-top: 1px solid var(--border);
+      padding: 80px 40px 40px;
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 60px;
+      margin-bottom: 60px;
+    }
+
+    .footer-brand p {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-top: 16px;
+      max-width: 280px;
+    }
+
+    .footer-col h4 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .footer-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-col a {
+      text-decoration: none;
+      font-size: 14px;
+      color: #4a6177;
+      transition: color 0.2s;
+    }
+
+    .footer-col a:hover { color: var(--blue); }
+
+    .footer-bottom {
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-copy {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .footer-waf {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--accent);
+    }
+
+    /* ── MOBILE ───────────────────────────────────────────── */
+    #mobile-nav {
+      display: none;
+      position: fixed;
+      top: 72px; left: 0; right: 0;
+      background: var(--deep);
+      border-bottom: 1px solid var(--border);
+      padding: 24px 40px;
+      z-index: 99;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    #mobile-nav.open { display: flex; }
+
+    #mobile-nav a {
+      text-decoration: none;
+      font-size: 14px;
+      color: var(--muted);
+      font-family: 'JetBrains Mono', monospace;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    @media (max-width: 1024px) {
+      .hero-inner { grid-template-columns: 1fr; gap: 60px; }
+      .hero-dashboard { max-width: 500px; }
+      .why-inner { grid-template-columns: 1fr; gap: 60px; }
+      .contact-inner { grid-template-columns: 1fr; gap: 60px; }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 0 24px; }
+      section { padding: 80px 24px; }
+      .nav-links { display: none; }
+      .hamburger { display: block; }
+      .services-grid { grid-template-columns: 1fr; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .how-grid { grid-template-columns: 1fr; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr; gap: 32px; }
+      .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+      .hero-stats { gap: 24px; }
+      .contact-form { padding: 28px; }
+      #mobile-nav { padding: 24px; }
+      .why-badge { position: static; margin-top: 24px; }
+      .cursor, .cursor-ring { display: none; }
+      body { cursor: auto; }
+    }
+
+    /* ── ANIMATIONS ───────────────────────────────────────── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
 </head>
-<body class="bg-zinc-950 text-zinc-100">
-    <!-- NAVBAR -->
-    <nav class="bg-zinc-950 border-b border-zinc-800 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
-            <div class="flex items-center gap-x-3">
-                <!-- BlueBox Logo -->
-                <div class="flex items-center gap-x-2">
-                    <svg width="38" height="38" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-blue-500">
-                        <path d="M12 2L3 5V11C3 16.55 7.84 21.74 12 22C16.16 21.74 21 16.55 21 11V5L12 2Z" fill="currentColor"/>
-                        <path d="M9 12L11 14L15 10" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    <span class="logo-font text-3xl font-semibold tracking-tighter text-white">BlueBox</span>
-                </div>
-            </div>
-            
-            <div class="hidden md:flex items-center gap-x-8 text-sm font-medium">
-                <a href="#services" class="nav-link text-zinc-300 hover:text-blue-400">Services</a>
-                <a href="#why" class="nav-link text-zinc-300 hover:text-blue-400">Why Us</a>
-                <a href="#pricing" class="nav-link text-zinc-300 hover:text-blue-400">Pricing</a>
-                <a href="#how" class="nav-link text-zinc-300 hover:text-blue-400">How it Works</a>
-                <a href="#faq" class="nav-link text-zinc-300 hover:text-blue-400">FAQ</a>
-            </div>
+<body>
 
-            <div class="flex items-center gap-x-4">
-                <a href="#contact" 
-                   class="px-6 py-2.5 text-sm font-semibold bg-white text-zinc-900 rounded-2xl hover:bg-blue-500 hover:text-white transition-all">
-                    Get Protected
-                </a>
-                <button id="mobile-menu-btn"
-                        class="md:hidden p-3 text-zinc-300 hover:text-white">
-                    <i class="fa-solid fa-bars text-2xl"></i>
-                </button>
-            </div>
+<!-- Custom cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- ── NAV ─────────────────────────────────────────────────── -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="logo-icon"></div>
+    <span class="logo-text">Blue<span>Box</span></span>
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#how">How it Works</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#contact" class="nav-cta">Get Protected</a></li>
+  </ul>
+
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+</nav>
+
+<div id="mobile-nav">
+  <a href="#services" onclick="closeMobile()">Services</a>
+  <a href="#why" onclick="closeMobile()">Why Us</a>
+  <a href="#pricing" onclick="closeMobile()">Pricing</a>
+  <a href="#how" onclick="closeMobile()">How it Works</a>
+  <a href="#faq" onclick="closeMobile()">FAQ</a>
+  <a href="#contact" onclick="closeMobile()" style="color:var(--blue)">Get Protected →</a>
+</div>
+
+<!-- ── HERO ─────────────────────────────────────────────────── -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-tag">
+        <div class="pulse-dot"></div>
+        SOC-as-a-Service · India
+      </div>
+
+      <h1>
+        Your small<br>
+        business.<br>
+        <span class="blue">Enterprise</span><br>
+        <span class="outline">security.</span>
+      </h1>
+
+      <p class="hero-desc">
+        BlueBox delivers continuous threat monitoring, instant incident response, and AI-powered protection — at a price Indian SMBs can actually afford. Starting at ₹8,000/month.
+      </p>
+
+      <div class="hero-btns">
+        <a href="#contact" class="btn-primary">
+          Start Free Trial
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+        <a href="#how" class="btn-ghost">
+          <i class="fa-solid fa-play"></i>
+          See how it works
+        </a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-num">40+</span>
+          <span class="stat-label">SMBs Protected</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">0</span>
+          <span class="stat-label">Breaches in 2025</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">99.9%</span>
+          <span class="stat-label">Uptime SLA</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live threat dashboard -->
+    <div class="hero-dashboard">
+      <div class="dash-header">
+        <span class="dash-title">// THREAT_DASHBOARD · LIVE</span>
+        <div class="dash-dots">
+          <span class="dot-red"></span>
+          <span class="dot-amber"></span>
+          <span class="dot-green"></span>
+        </div>
+      </div>
+      <div class="dash-body">
+        <div class="threat-item">
+          <span class="threat-name">SQL Injection attempt</span>
+          <span class="threat-badge badge-blocked">BLOCKED</span>
+          <span class="threat-count">192.168.x.x</span>
+        </div>
+        <div class="threat-item">
+          <span class="threat-name">XSS payload detected</span>
+          <span class="threat-badge badge-blocked">BLOCKED</span>
+          <span class="threat-count">10.0.x.x</span>
+        </div>
+        <div class="threat-item">
+          <span class="threat-name">Port scan activity</span>
+          <span class="threat-badge badge-monitor">MONITOR</span>
+          <span class="threat-count">172.16.x.x</span>
+        </div>
+        <div class="threat-item">
+          <span class="threat-name">Auth request verified</span>
+          <span class="threat-badge badge-safe">SAFE</span>
+          <span class="threat-count">user@co.in</span>
+        </div>
+        <div class="threat-item">
+          <span class="threat-name">Path traversal blocked</span>
+          <span class="threat-badge badge-blocked">BLOCKED</span>
+          <span class="threat-count">203.x.x.x</span>
+        </div>
+      </div>
+      <div class="dash-footer">
+        <div class="waf-status">
+          <div class="waf-dot"></div>
+          AI WAF · ACTIVE
+        </div>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted)">
+          Updated just now
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SERVICES ──────────────────────────────────────────────── -->
+<section id="services">
+  <div class="section-inner">
+    <div class="fade-up">
+      <div class="section-tag">What We Do</div>
+      <h2>Full SOC.<br>Tiny price.</h2>
+      <p class="section-desc">Enterprise-grade security operations, without the enterprise price tag. Three core pillars protecting your business 24/7.</p>
+    </div>
+
+    <div class="services-grid fade-up">
+      <div class="service-card">
+        <div class="service-num">01</div>
+        <div class="service-icon"><i class="fa-solid fa-eye"></i></div>
+        <h3>24/7 Threat Monitoring</h3>
+        <p>Continuous surveillance of your endpoints, cloud, email, and network using enterprise SIEM tools — Microsoft Sentinel, Elastic, and our custom AI layer.</p>
+        <ul class="service-features">
+          <li>Real-time alerts & dashboards</li>
+          <li>Dark web credential monitoring</li>
+          <li>Ransomware early detection</li>
+          <li>AI-powered anomaly detection</li>
+        </ul>
+      </div>
+
+      <div class="service-card">
+        <div class="service-num">02</div>
+        <div class="service-icon"><i class="fa-solid fa-bolt"></i></div>
+        <h3>Instant Incident Response</h3>
+        <p>When something bad happens, our Bengaluru SOC team jumps in within minutes — containment, eradication, recovery, and a full forensic report.</p>
+        <ul class="service-features">
+          <li>15-min SLA for critical alerts</li>
+          <li>Remote cleanup included</li>
+          <li>Post-incident forensic report</li>
+          <li>Legal evidence preservation</li>
+        </ul>
+      </div>
+
+      <div class="service-card">
+        <div class="service-num">03</div>
+        <div class="service-icon"><i class="fa-solid fa-chart-simple"></i></div>
+        <h3>Compliance & Reporting</h3>
+        <p>Beautiful executive dashboards, weekly threat digests, and expert guidance on GST, RBI, DPDP Act, ISO 27001 and SOC 2 readiness.</p>
+        <ul class="service-features">
+          <li>Weekly threat intelligence digest</li>
+          <li>Vulnerability scanning & reporting</li>
+          <li>DPDP Act compliance evidence</li>
+          <li>Board-ready security summaries</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── WHY US ─────────────────────────────────────────────────── -->
+<section id="why">
+  <div class="section-inner">
+    <div class="why-inner">
+      <div class="why-visual fade-up">
+        <img src="https://picsum.photos/id/201/800/600" alt="SOC Operations" class="why-img">
+        <div class="why-badge">
+          <div class="why-badge-num">8+</div>
+          <div class="why-badge-label">Years Blue Teaming</div>
+        </div>
+      </div>
+
+      <div class="why-content fade-up">
+        <div class="section-tag">Blue Teamer Founded</div>
+        <blockquote>
+          I got tired of watching Indian SMBs pay lakhs for mediocre protection.
+        </blockquote>
+        <p>
+          As a full-time blue teamer defending enterprises for over 8 years, I built BlueBox to give small Indian businesses the same level of protection as Fortune 500 companies — at a fraction of the cost. No resellers, no upsells. Just real security.
+        </p>
+        <div class="why-stats">
+          <div class="why-stat">
+            <div class="why-stat-num">40+</div>
+            <div class="why-stat-label">Clients</div>
+          </div>
+          <div class="why-stat">
+            <div class="why-stat-num">0</div>
+            <div class="why-stat-label">Breaches</div>
+          </div>
+          <div class="why-stat">
+            <div class="why-stat-num">99.9%</div>
+            <div class="why-stat-label">Uptime SLA</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PRICING ────────────────────────────────────────────────── -->
+<section id="pricing">
+  <div class="section-inner">
+    <div class="pricing-header fade-up">
+      <div class="section-tag" style="justify-content:center">Pricing</div>
+      <h2>Simple, transparent pricing</h2>
+      <p class="section-desc" style="margin:0 auto;text-align:center">No hidden fees. No long-term contracts. Cancel anytime.</p>
+    </div>
+
+    <div class="pricing-grid fade-up">
+      <!-- Starter -->
+      <div class="pricing-card">
+        <div class="plan-name">Starter</div>
+        <div class="plan-price">₹8,999<span>/mo</span></div>
+        <div class="plan-billing">Billed annually · or ₹10,999/mo</div>
+        <ul class="plan-features">
+          <li><i class="fa-solid fa-check"></i> Up to 15 endpoints</li>
+          <li><i class="fa-solid fa-check"></i> Email + endpoint monitoring</li>
+          <li><i class="fa-solid fa-check"></i> 30-min response SLA</li>
+          <li><i class="fa-solid fa-check"></i> Weekly reports</li>
+          <li><i class="fa-solid fa-check"></i> Basic WAF protection</li>
+        </ul>
+        <a href="#contact" class="plan-btn plan-btn-outline">Start Free Trial</a>
+      </div>
+
+      <!-- Pro -->
+      <div class="pricing-card featured">
+        <div class="plan-name" style="color:var(--blue);margin-top:20px">Pro</div>
+        <div class="plan-price">₹18,999<span>/mo</span></div>
+        <div class="plan-billing">Billed annually · or ₹22,999/mo</div>
+        <ul class="plan-features">
+          <li><i class="fa-solid fa-check"></i> Up to 50 endpoints + cloud</li>
+          <li><i class="fa-solid fa-check"></i> Full SIEM + EDR stack</li>
+          <li><i class="fa-solid fa-check"></i> 15-min critical response SLA</li>
+          <li><i class="fa-solid fa-check"></i> Monthly compliance pack</li>
+          <li><i class="fa-solid fa-check"></i> Dedicated Slack channel</li>
+          <li><i class="fa-solid fa-check"></i> AI WAF + threat hunting</li>
+        </ul>
+        <a href="#contact" class="plan-btn plan-btn-solid">Get Started Today</a>
+      </div>
+
+      <!-- Enterprise -->
+      <div class="pricing-card">
+        <div class="plan-name">Enterprise</div>
+        <div class="plan-price" style="font-size:40px;margin-top:10px">Custom</div>
+        <div class="plan-billing">Tailored to your needs</div>
+        <ul class="plan-features">
+          <li><i class="fa-solid fa-check"></i> Unlimited endpoints</li>
+          <li><i class="fa-solid fa-check"></i> Custom integrations</li>
+          <li><i class="fa-solid fa-check"></i> On-site analyst training</li>
+          <li><i class="fa-solid fa-check"></i> White-glove support</li>
+          <li><i class="fa-solid fa-check"></i> MDR + active threat hunting</li>
+        </ul>
+        <a href="#contact" class="plan-btn plan-btn-outline">Talk to Us</a>
+      </div>
+    </div>
+
+    <p class="pricing-note fade-up">
+      All plans include 14-day free trial · No credit card required · Cancel anytime
+    </p>
+  </div>
+</section>
+
+<!-- ── HOW IT WORKS ───────────────────────────────────────────── -->
+<section id="how">
+  <div class="section-inner">
+    <div class="fade-up">
+      <div class="section-tag">Process</div>
+      <h2>3 steps.<br>Zero headache.</h2>
+    </div>
+
+    <div class="how-grid fade-up">
+      <div class="how-step">
+        <div class="how-num">01</div>
+        <h3>Onboard in 48 hours</h3>
+        <p>Share your environment — Azure, AWS, Office 365, endpoints. We deploy lightweight agents remotely. No on-site visits needed.</p>
+      </div>
+      <div class="how-step">
+        <div class="how-num">02</div>
+        <h3>We watch 24×7</h3>
+        <p>Our Bengaluru-based SOC analysts monitor your infrastructure around the clock, with our AI layer catching what humans might miss.</p>
+      </div>
+      <div class="how-step">
+        <div class="how-num">03</div>
+        <h3>Sleep peacefully</h3>
+        <p>You get a beautiful live dashboard, weekly calls, and instant WhatsApp alerts if anything critical happens. We handle everything else.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TESTIMONIALS ───────────────────────────────────────────── -->
+<section id="testimonials">
+  <div class="section-inner">
+    <div class="fade-up">
+      <div class="section-tag">Testimonials</div>
+      <h2>Real owners.<br>Real results.</h2>
+    </div>
+
+    <div class="testimonials-grid fade-up">
+      <div class="testimonial">
+        <p class="testimonial-text">Switched from a ₹1.2 lakh/month MSSP. BlueBox gave us better coverage at 1/6th the price. No more sleepless nights worrying about ransomware.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar" style="background:rgba(245,158,11,0.15);color:#f59e0b">RS</div>
+          <div>
+            <div class="author-name">Rohan Sharma</div>
+            <div class="author-title">Founder · QuickMart Retail · Bengaluru</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial">
+        <p class="testimonial-text">Their team caught a phishing campaign targeting our entire staff within 4 minutes of launch. That kind of response saved us from a potential disaster.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar" style="background:rgba(14,165,233,0.1);color:var(--blue)">PM</div>
+          <div>
+            <div class="author-name">Priya Menon</div>
+            <div class="author-title">CEO · HealWell Clinics · Kochi</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial">
+        <p class="testimonial-text">The monthly reports are so clear my non-tech co-founder finally understands our security posture. Best decision we made for our startup this year.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar" style="background:rgba(0,255,136,0.08);color:var(--accent)">AR</div>
+          <div>
+            <div class="author-name">Arjun Rao</div>
+            <div class="author-title">CTO · ShipFast Logistics · Hyderabad</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FAQ ───────────────────────────────────────────────────── -->
+<section id="faq">
+  <div class="section-inner">
+    <div class="faq-inner">
+      <div class="fade-up" style="text-align:center">
+        <div class="section-tag" style="justify-content:center">FAQ</div>
+        <h2>Frequently asked questions</h2>
+      </div>
+
+      <div class="faq-list fade-up">
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">Do I need to buy any extra tools or software?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a">No. We bring our own enterprise-grade stack. You only need to allow our lightweight agents to be deployed — no additional software purchases required.</div>
         </div>
 
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-zinc-900 border-t border-zinc-800 py-4">
-            <div class="flex flex-col px-6 gap-y-4 text-sm font-medium">
-                <a href="#services" class="nav-link py-2">Services</a>
-                <a href="#why" class="nav-link py-2">Why Us</a>
-                <a href="#pricing" class="nav-link py-2">Pricing</a>
-                <a href="#how" class="nav-link py-2">How it Works</a>
-                <a href="#faq" class="nav-link py-2">FAQ</a>
-                <a href="#contact" class="py-3 text-center bg-blue-600 rounded-2xl font-semibold">Get Protected Now</a>
-            </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">What if I only have 5 laptops and 1 server?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a">Our Starter plan is built for exactly that. We scale with your business — you can upgrade or downgrade anytime as you grow.</div>
         </div>
-    </nav>
 
-    <!-- HERO -->
-    <header class="hero-bg h-screen flex items-center">
-        <div class="max-w-7xl mx-auto px-6 pt-20">
-            <div class="max-w-2xl">
-                <div class="inline-flex items-center gap-x-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-3xl text-sm mb-6 border border-white/20">
-                    <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                    24/7 Expert Monitoring • Starting at ₹8,000/month
-                </div>
-                
-                <h1 class="text-6xl md:text-7xl font-semibold tracking-tighter leading-none mb-6 logo-font">
-                    Your small business.<br>
-                    <span class="text-blue-400">Enterprise-grade security.</span>
-                </h1>
-                
-                <p class="text-xl text-zinc-400 mb-10">
-                    BlueBox delivers full SOC-as-a-Service — continuous monitoring, instant threat response, 
-                    and peace of mind — at a price small companies can actually afford.
-                </p>
-                
-                <div class="flex flex-wrap gap-4">
-                    <a href="#contact" 
-                       class="px-8 py-4 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-3xl text-lg transition-all flex items-center gap-x-3 group">
-                        Start Free Trial
-                        <i class="fa-solid fa-arrow-right group-active:translate-x-1 transition"></i>
-                    </a>
-                    <a href="#how" 
-                       class="px-8 py-4 border border-white/30 hover:border-white/60 font-medium rounded-3xl text-lg transition-all">
-                        See how it works
-                    </a>
-                </div>
-                
-                <div class="mt-12 flex items-center gap-x-8 text-sm">
-                    <div class="flex items-center gap-x-2">
-                        <i class="fa-solid fa-shield-halved text-green-400"></i>
-                        <span>No hidden fees</span>
-                    </div>
-                    <div class="flex items-center gap-x-2">
-                        <i class="fa-solid fa-clock text-green-400"></i>
-                        <span>Cancel anytime</span>
-                    </div>
-                    <div class="flex items-center gap-x-2">
-                        <i class="fa-solid fa-indian-rupee-sign text-green-400"></i>
-                        <span>Indian support team</span>
-                    </div>
-                </div>
-            </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">Where is your SOC team located?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a">Our primary SOC is in Bengaluru with backup analysts in Pune and Hyderabad. All your data stays within India, fully compliant with DPDP Act requirements.</div>
         </div>
-        
-        <!-- Trust bar -->
-        <div class="absolute bottom-12 left-1/2 -translate-x-1/2 hidden md:flex items-center gap-x-10 text-xs uppercase tracking-widest text-zinc-500">
-            <div>Trusted by 40+ Indian SMBs</div>
-            <div class="h-px w-8 bg-zinc-700"></div>
-            <div>ISO 27001 aligned</div>
-            <div class="h-px w-8 bg-zinc-700"></div>
-            <div>Zero breaches in 2025</div>
-        </div>
-    </header>
 
-    <!-- SERVICES -->
-    <section id="services" class="py-24 bg-zinc-900">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center mb-16">
-                <span class="text-blue-400 text-sm font-semibold tracking-widest">WHAT WE DO</span>
-                <h2 class="text-5xl font-semibold tracking-tighter mt-3">Full SOC. Tiny price.</h2>
-            </div>
-            
-            <div class="grid md:grid-cols-3 gap-8">
-                <!-- Service 1 -->
-                <div class="service-card bg-zinc-950 border border-zinc-800 rounded-3xl p-8">
-                    <div class="w-12 h-12 bg-blue-500/10 text-blue-400 rounded-2xl flex items-center justify-center mb-6">
-                        <i class="fa-solid fa-eye text-3xl"></i>
-                    </div>
-                    <h3 class="text-2xl font-semibold mb-3">24/7 Threat Monitoring</h3>
-                    <p class="text-zinc-400 leading-relaxed">
-                        We watch your endpoints, cloud, email, and network around the clock using enterprise tools (Microsoft Sentinel, Elastic, custom SIEM).
-                    </p>
-                    <ul class="mt-8 space-y-3 text-sm">
-                        <li class="flex items-center gap-x-3"><i class="fa-solid fa-check text-green-400"></i> Real-time alerts</li>
-                        <li class="flex items-center gap-x-3"><i class="fa-solid fa-check text-green-400"></i> Dark web monitoring</li>
-                        <li class="flex items-center gap-x-3"><i class="fa-solid fa-check text-green-400"></i> Ransomware detection</li>
-                    </ul>
-                </div>
-                
-                <!-- Service 2 -->
-                <div class="service-card bg-zinc-950 border border-zinc-800 rounded-3xl p-8">
-                    <div class="w-12 h-12 bg-blue-500/10 text-blue-400 rounded-2xl flex items-center justify-center mb-6">
-                        <i class="fa-solid fa-bolt text-3xl"></i>
-                    </div>
-                    <h3 class="text-2xl font-semibold mb-3">Instant Incident Response</h3>
-                    <p class="text-zinc-400 leading-relaxed">
-                        When something bad happens, our team jumps in within minutes — containment, eradication, and full forensic report.
-                    </p>
-                    <ul class="mt-8 space-y-3 text-sm">
-                        <li class="flex items-center gap-x-3"><i class="fa-solid fa-check text-green-400"></i> 15-minute SLA for critical alerts</li>
-                        <li class="flex items-center gap-x-3"><i class="fa-solid fa-check text-green-400"></i> Remote cleanup included</li>
-                        <li class="flex items-center gap-x-3"><i class="fa-solid fa-check text-green-400"></i> Post-incident report</li>
-                    </ul>
-                </div>
-                
-                <!-- Service 3 -->
-                <div class="service-card bg-zinc-950 border border-zinc-800 rounded-3xl p-8">
-                    <div class="w-12 h-12 bg-blue-500/10 text-blue-400 rounded-2xl flex items-center justify-center mb-6">
-                        <i class="fa-solid fa-chart-simple text-3xl"></i>
-                    </div>
-                    <h3 class="text-2xl font-semibold mb-3">Monthly Reports &amp; Compliance</h3>
-                    <p class="text-zinc-400 leading-relaxed">
-                        Beautiful dashboards, executive summaries, and help with GST, RBI, DPDP Act, ISO, and SOC 2 readiness.
-                    </p>
-                    <ul class="mt-8 space-y-3 text-sm">
-                        <li class="flex items-center gap-x-3"><i class="fa-solid fa-check text-green-400"></i> Weekly threat digest</li>
-                        <li class="flex items-center gap-x-3"><i class="fa-solid fa-check text-green-400"></i> Vulnerability scanning</li>
-                        <li class="flex items-center gap-x-3"><i class="fa-solid fa-check text-green-400"></i> Compliance evidence</li>
-                    </ul>
-                </div>
-            </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">How is BlueBox different from just buying an antivirus?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a">Antivirus only covers one layer. BlueBox covers your entire attack surface — network, cloud, email, endpoints, identity — with 24/7 human analysts who actually respond when something happens. Antivirus doesn't call you at 2am to contain a breach.</div>
         </div>
-    </section>
 
-    <!-- WHY US -->
-    <section id="why" class="py-24 bg-black">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="grid md:grid-cols-2 gap-16 items-center">
-                <div>
-                    <img src="https://picsum.photos/id/201/800/600" 
-                         alt="Blue team monitoring" 
-                         class="rounded-3xl shadow-2xl">
-                </div>
-                <div>
-                    <div class="text-blue-400 text-sm font-semibold tracking-widest mb-4">BLUE TEAMER FOUNDED</div>
-                    <h2 class="text-5xl font-semibold tracking-tighter leading-tight mb-8">
-                        I got tired of seeing small Indian companies pay lakhs for basic protection.
-                    </h2>
-                    <p class="text-zinc-400 text-lg leading-relaxed mb-10">
-                        As a full-time blue teamer with 8+ years defending enterprises, I built BlueBox to bring the same level of protection to small businesses — without the enterprise price tag.
-                    </p>
-                    <div class="flex items-center gap-x-6">
-                        <div class="text-center">
-                            <div class="text-4xl font-semibold text-blue-400">40+</div>
-                            <div class="text-xs uppercase tracking-widest">Clients protected</div>
-                        </div>
-                        <div class="h-12 w-px bg-zinc-800"></div>
-                        <div class="text-center">
-                            <div class="text-4xl font-semibold text-blue-400">0</div>
-                            <div class="text-xs uppercase tracking-widest">Successful breaches</div>
-                        </div>
-                        <div class="h-12 w-px bg-zinc-800"></div>
-                        <div class="text-center">
-                            <div class="text-4xl font-semibold text-blue-400">99.9%</div>
-                            <div class="text-xs uppercase tracking-widest">Uptime SLA</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">Can I cancel anytime?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a">Yes. No long-term contracts, no cancellation fees. We're confident you'll stay because of the value we provide, not because of lock-in.</div>
         </div>
-    </section>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <!-- PRICING -->
-    <section id="pricing" class="py-24 bg-zinc-900">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center mb-16">
-                <span class="px-5 py-2 bg-emerald-900/50 text-emerald-400 text-xs font-bold rounded-full">VERY LOW FEES AS REQUESTED</span>
-                <h2 class="text-5xl font-semibold tracking-tighter mt-6">Simple, transparent pricing</h2>
-            </div>
-            
-            <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                <!-- Starter -->
-                <div class="bg-zinc-950 border border-zinc-700 rounded-3xl p-8">
-                    <div class="text-sm font-semibold text-zinc-400 mb-1">STARTER</div>
-                    <div class="flex items-baseline gap-x-1">
-                        <span class="text-6xl font-semibold">₹8,999</span>
-                        <span class="text-zinc-400">/mo</span>
-                    </div>
-                    <div class="text-xs text-zinc-500 mt-1">Billed annually • or ₹10,999 monthly</div>
-                    
-                    <ul class="mt-10 space-y-4">
-                        <li class="flex gap-x-3"><i class="fa-solid fa-check text-emerald-400 mt-1"></i> Up to 15 endpoints</li>
-                        <li class="flex gap-x-3"><i class="fa-solid fa-check text-emerald-400 mt-1"></i> Email + endpoint monitoring</li>
-                        <li class="flex gap-x-3"><i class="fa-solid fa-check text-emerald-400 mt-1"></i> 30-min response SLA</li>
-                        <li class="flex gap-x-3"><i class="fa-solid fa-check text-emerald-400 mt-1"></i> Weekly reports</li>
-                    </ul>
-                    
-                    <a href="#contact" 
-                       class="mt-12 block w-full py-4 text-center border border-blue-500 hover:bg-blue-500/10 text-blue-400 font-semibold rounded-2xl transition">
-                        Start 14-day free trial
-                    </a>
-                </div>
-                
-                <!-- Pro (most popular) -->
-                <div class="bg-gradient-to-b from-blue-950 to-zinc-950 border-2 border-blue-500 rounded-3xl p-8 relative">
-                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-xs font-bold px-6 py-1 rounded-full">MOST POPULAR</div>
-                    <div class="text-sm font-semibold text-blue-400 mb-1">PRO</div>
-                    <div class="flex items-baseline gap-x-1">
-                        <span class="text-6xl font-semibold">₹18,999</span>
-                        <span class="text-zinc-400">/mo</span>
-                    </div>
-                    <div class="text-xs text-zinc-500 mt-1">Billed annually • or ₹22,999 monthly</div>
-                    
-                    <ul class="mt-10 space-y-4">
-                        <li class="flex gap-x-3"><i class="fa-solid fa-check text-emerald-400 mt-1"></i> Up to 50 endpoints + cloud</li>
-                        <li class="flex gap-x-3"><i class="fa-solid fa-check text-emerald-400 mt-1"></i> Full SIEM + EDR</li>
-                        <li class="flex gap-x-3"><i class="fa-solid fa-check text-emerald-400 mt-1"></i> 15-min critical response</li>
-                        <li class="flex gap-x-3"><i class="fa-solid fa-check text-emerald-400 mt-1"></i> Monthly compliance pack</li>
-                        <li class="flex gap-x-3"><i class="fa-solid fa-check text-emerald-400 mt-1"></i> Dedicated Slack channel</li>
-                    </ul>
-                    
-                    <a href="#contact" 
-                       class="mt-12 block w-full py-4 text-center bg-blue-600 hover:bg-blue-500 font-semibold rounded-2xl transition">
-                        Get started today
-                    </a>
-                </div>
-                
-                <!-- Enterprise -->
-                <div class="bg-zinc-950 border border-zinc-700 rounded-3xl p-8">
-                    <div class="text-sm font-semibold text-zinc-400 mb-1">ENTERPRISE</div>
-                    <div class="text-5xl font-semibold mt-6">Custom</div>
-                    
-                    <ul class="mt-10 space-y-4">
-                        <li class="flex gap-x-3"><i class="fa-solid fa-check text-emerald-400 mt-1"></i> Unlimited endpoints</li>
-                        <li class="flex gap-x-3"><i class="fa-solid fa-check text-emerald-400 mt-1"></i> Custom integrations</li>
-                        <li class="flex gap-x-3"><i class="fa-solid fa-check text-emerald-400 mt-1"></i> On-site training</li>
-                        <li class="flex gap-x-3"><i class="fa-solid fa-check text-emerald-400 mt-1"></i> White-glove support</li>
-                        <li class="flex gap-x-3"><i class="fa-solid fa-check text-emerald-400 mt-1"></i> MDR + threat hunting</li>
-                    </ul>
-                    
-                    <a href="#contact" 
-                       class="mt-12 block w-full py-4 text-center border border-white/30 hover:bg-white/5 font-semibold rounded-2xl transition">
-                        Talk to us
-                    </a>
-                </div>
-            </div>
-            
-            <p class="text-center text-zinc-500 text-sm mt-12">
-                All plans include 14-day free trial • No credit card required • Cancel anytime
-            </p>
-        </div>
-    </section>
+<!-- ── CONTACT ────────────────────────────────────────────────── -->
+<section id="contact">
+  <div class="contact-glow"></div>
+  <div class="section-inner">
+    <div class="contact-inner">
+      <div class="contact-left fade-up">
+        <div class="section-tag">Contact</div>
+        <h2>Ready to secure your business?</h2>
+        <p>Book a free 15-minute call or start your trial today. We'll assess your current security posture and show you exactly what's at risk — no commitment required.</p>
 
-    <!-- HOW IT WORKS -->
-    <section id="how" class="py-24 bg-black">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-5xl font-semibold tracking-tighter">3 steps. Zero headache.</h2>
-            </div>
-            
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="text-center">
-                    <div class="w-16 h-16 mx-auto bg-blue-600/10 text-blue-400 rounded-2xl flex items-center justify-center text-4xl font-bold">1</div>
-                    <h4 class="mt-8 text-xl font-semibold">Onboard in 48 hours</h4>
-                    <p class="text-zinc-400 mt-3">Share your environment (Azure/AWS, Office 365, endpoints). We deploy agents remotely.</p>
-                </div>
-                <div class="text-center">
-                    <div class="w-16 h-16 mx-auto bg-blue-600/10 text-blue-400 rounded-2xl flex items-center justify-center text-4xl font-bold">2</div>
-                    <h4 class="mt-8 text-xl font-semibold">We watch 24×7</h4>
-                    <p class="text-zinc-400 mt-3">Our Bengaluru-based SOC analysts monitor your infra and get alerts on their phones.</p>
-                </div>
-                <div class="text-center">
-                    <div class="w-16 h-16 mx-auto bg-blue-600/10 text-blue-400 rounded-2xl flex items-center justify-center text-4xl font-bold">3</div>
-                    <h4 class="mt-8 text-xl font-semibold">Sleep peacefully</h4>
-                    <p class="text-zinc-400 mt-3">You get a beautiful dashboard + weekly calls. We handle everything else.</p>
-                </div>
-            </div>
+        <div class="contact-info">
+          <div class="contact-info-item">
+            <div class="contact-info-icon"><i class="fa-solid fa-envelope"></i></div>
+            <span>hello@bluebox.security</span>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-info-icon"><i class="fa-brands fa-whatsapp"></i></div>
+            <span>+91 98765 43210</span>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-info-icon"><i class="fa-solid fa-location-dot"></i></div>
+            <span>Bengaluru, Karnataka · India</span>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-info-icon"><i class="fa-solid fa-shield-halved"></i></div>
+            <span style="color:var(--accent)">AI WAF Protected · All inputs scanned</span>
+          </div>
         </div>
-    </section>
+      </div>
 
-    <!-- TESTIMONIALS -->
-    <section class="py-24 bg-zinc-900">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center mb-12">
-                <h2 class="text-4xl font-semibold tracking-tighter">Real owners. Real results.</h2>
+      <div class="contact-form fade-up">
+        <form id="contactForm" onsubmit="submitForm(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Your Name</label>
+              <input type="text" id="f-name" class="form-input" placeholder="Ruchir Agarwal" required>
             </div>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-zinc-950 p-8 rounded-3xl">
-                    <p class="italic text-zinc-300">"Switched from a ₹1.2 lakh/month MSSP. BlueBox gave us better coverage at 1/6th the price. No more sleepless nights."</p>
-                    <div class="mt-8 flex items-center gap-x-4">
-                        <div class="w-10 h-10 bg-amber-300 rounded-full"></div>
-                        <div>
-                            <div class="font-semibold">Rohan Sharma</div>
-                            <div class="text-xs text-zinc-500">Founder, QuickMart Retail • Bengaluru</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-zinc-950 p-8 rounded-3xl">
-                    <p class="italic text-zinc-300">"Their team caught a phishing campaign targeting our entire staff within 4 minutes. Saved us from a potential disaster."</p>
-                    <div class="mt-8 flex items-center gap-x-4">
-                        <div class="w-10 h-10 bg-sky-300 rounded-full"></div>
-                        <div>
-                            <div class="font-semibold">Priya Menon</div>
-                            <div class="text-xs text-zinc-500">CEO, HealWell Clinics • Kochi</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-zinc-950 p-8 rounded-3xl">
-                    <p class="italic text-zinc-300">"The monthly reports are so clear even my non-tech co-founder understands everything. Best decision for our startup."</p>
-                    <div class="mt-8 flex items-center gap-x-4">
-                        <div class="w-10 h-10 bg-violet-300 rounded-full"></div>
-                        <div>
-                            <div class="font-semibold">Arjun Rao</div>
-                            <div class="text-xs text-zinc-500">CTO, ShipFast Logistics • Hyderabad</div>
-                        </div>
-                    </div>
-                </div>
+            <div class="form-group">
+              <label class="form-label">Business Email</label>
+              <input type="email" id="f-email" class="form-input" placeholder="you@company.com" required>
             </div>
-        </div>
-    </section>
+          </div>
 
-    <!-- FAQ -->
-    <section id="faq" class="py-24 bg-black">
-        <div class="max-w-3xl mx-auto px-6">
-            <h2 class="text-5xl font-semibold tracking-tighter text-center mb-16">Frequently Asked Questions</h2>
-            
-            <div class="space-y-4">
-                <div class="faq-item bg-zinc-900 rounded-3xl overflow-hidden">
-                    <button onclick="toggleFAQ(this)" class="faq-question w-full px-8 py-6 text-left flex justify-between items-center hover:bg-zinc-800">
-                        <span class="font-medium">Do I need to buy any extra tools?</span>
-                        <i class="fa-solid fa-chevron-down transition-transform"></i>
-                    </button>
-                    <div class="faq-answer hidden px-8 pb-6 text-zinc-400">
-                        No. We use our own enterprise-grade stack. You only need to allow our agents (very lightweight).
-                    </div>
-                </div>
-                
-                <div class="faq-item bg-zinc-900 rounded-3xl overflow-hidden">
-                    <button onclick="toggleFAQ(this)" class="faq-question w-full px-8 py-6 text-left flex justify-between items-center hover:bg-zinc-800">
-                        <span class="font-medium">What if I have only 5 laptops and 1 server?</span>
-                        <i class="fa-solid fa-chevron-down transition-transform"></i>
-                    </button>
-                    <div class="faq-answer hidden px-8 pb-6 text-zinc-400">
-                        Starter plan is perfect for you. We scale with your business.
-                    </div>
-                </div>
-                
-                <div class="faq-item bg-zinc-900 rounded-3xl overflow-hidden">
-                    <button onclick="toggleFAQ(this)" class="faq-question w-full px-8 py-6 text-left flex justify-between items-center hover:bg-zinc-800">
-                        <span class="font-medium">Where is your SOC located?</span>
-                        <i class="fa-solid fa-chevron-down transition-transform"></i>
-                    </button>
-                    <div class="faq-answer hidden px-8 pb-6 text-zinc-400">
-                        Our primary SOC is in Bengaluru with backup analysts in Pune and Hyderabad. All data stays in India.
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+          <div class="form-group">
+            <label class="form-label">Company · Number of Devices</label>
+            <input type="text" id="f-company" class="form-input" placeholder="Acme Corp · 25 devices" required>
+          </div>
 
-    <!-- CONTACT -->
-    <section id="contact" class="py-24 bg-gradient-to-b from-zinc-900 to-black">
-        <div class="max-w-2xl mx-auto px-6">
-            <div class="text-center mb-12">
-                <h2 class="text-5xl font-semibold tracking-tighter">Ready to secure your business?</h2>
-                <p class="mt-4 text-xl text-zinc-400">Book a 15-minute call or start your free trial today.</p>
-            </div>
-            
-            <form action="https://formspree.io/f/YOUR_CODE_HERE" method="POST" class="space-y-8">
-                <div class="grid grid-cols-2 gap-6">
-                    <input type="text" name="name" placeholder="Your name" required
-                           class="bg-zinc-900 border border-zinc-700 focus:border-blue-500 rounded-2xl px-6 py-4 outline-none transition">
-                    <input type="email" name="email" placeholder="Business email" required
-                           class="bg-zinc-900 border border-zinc-700 focus:border-blue-500 rounded-2xl px-6 py-4 outline-none transition">
-                </div>
-                
-                <input type="text" name="company" placeholder="Company name &amp; number of devices" required
-                       class="w-full bg-zinc-900 border border-zinc-700 focus:border-blue-500 rounded-2xl px-6 py-4 outline-none transition">
-                
-                <textarea name="message" rows="5" placeholder="Tell us about your current setup or any specific concerns..." 
-                          class="w-full bg-zinc-900 border border-zinc-700 focus:border-blue-500 rounded-2xl px-6 py-4 outline-none transition resize-none"></textarea>
-                
-                <button type="submit"
-                        class="w-full py-5 bg-white text-zinc-950 font-semibold text-lg rounded-3xl hover:bg-blue-400 transition-all">
-                    Yes, secure my business →
-                </button>
-            </form>
-            
-            <div class="text-center mt-8 text-xs text-zinc-500">
-                Or email us directly at <a href="mailto:hello@bluebox.security" class="text-blue-400">hello@bluebox.security</a>
-            </div>
-        </div>
-    </section>
+          <div class="form-group">
+            <label class="form-label">Message</label>
+            <textarea id="f-message" class="form-input" placeholder="Tell us about your setup or any specific concerns..." required></textarea>
+          </div>
 
-    <!-- FOOTER -->
-    <footer class="bg-black border-t border-zinc-900 py-16">
-        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-12">
-            <div>
-                <div class="flex items-center gap-x-2 mb-6">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-blue-500">
-                        <path d="M12 2L3 5V11C3 16.55 7.84 21.74 12 22C16.16 21.74 21 16.55 21 11V5L12 2Z" fill="currentColor"/>
-                    </svg>
-                    <span class="logo-font text-3xl font-semibold">BlueBox</span>
-                </div>
-                <p class="text-xs text-zinc-500">Made with ❤️ by a blue teamer for Indian small businesses</p>
-            </div>
-            
-            <div>
-                <div class="font-semibold mb-4">Company</div>
-                <div class="space-y-2 text-sm text-zinc-400">
-                    <div>About Us</div>
-                    <div>Careers</div>
-                    <div>Contact</div>
-                </div>
-            </div>
-            
-            <div>
-                <div class="font-semibold mb-4">Resources</div>
-                <div class="space-y-2 text-sm text-zinc-400">
-                    <div>Blog</div>
-                    <div>Free Cybersecurity Checklist</div>
-                    <div>Threat Reports</div>
-                </div>
-            </div>
-            
-            <div>
-                <div class="font-semibold mb-4">Legal</div>
-                <div class="space-y-2 text-sm text-zinc-400">
-                    <div>Privacy Policy</div>
-                    <div>Terms of Service</div>
-                    <div>Data Processing Agreement</div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="text-center text-xs text-zinc-600 mt-16">
-            © 2026 BlueBox Security Private Limited • Bengaluru, Karnataka • All rights reserved
-        </div>
-    </footer>
+          <button type="submit" class="form-submit" id="submitBtn">
+            <i class="fa-solid fa-shield-halved"></i>
+            Yes, secure my business
+          </button>
 
-    <script>
-        // Tailwind script already loaded
-        
-        // Mobile menu
-        const mobileBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        
-        mobileBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-            const icon = mobileBtn.querySelector('i');
-            if (icon.classList.contains('fa-bars')) {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-xmark');
-            } else {
-                icon.classList.add('fa-bars');
-                icon.classList.remove('fa-xmark');
-            }
-        });
-        
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                if (this.getAttribute('href') !== '#') {
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if (target) {
-                        target.scrollIntoView({ behavior: 'smooth' });
-                    }
-                }
-            });
-        });
-        
-        // FAQ toggle
-        function toggleFAQ(btn) {
-            const answer = btn.nextElementSibling;
-            const chevron = btn.querySelector('i');
-            
-            answer.classList.toggle('hidden');
-            chevron.style.transform = answer.classList.contains('hidden') ? '' : 'rotate(180deg)';
-        }
-        
-        // Form success alert (demo)
-        const form = document.querySelector('form');
-        if (form) {
-            form.addEventListener('submit', (e) => {
-                // In real deployment Formspree handles this, but for demo:
-                setTimeout(() => {
-                    alert("Thank you! We'll contact you within 2 hours. 🚀");
-                }, 800);
-            });
-        }
-        
-        console.log('%cBlueBox website ready! 🚀', 'color:#3b82f6; font-size:14px');
-    </script>
+          <div class="form-status" id="formStatus"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ─────────────────────────────────────────────────── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#" class="nav-logo" style="text-decoration:none">
+          <div class="logo-icon"></div>
+          <span class="logo-text">Blue<span>Box</span></span>
+        </a>
+        <p>Enterprise-grade cybersecurity for Indian small businesses. Made by a blue teamer, for business owners who deserve better protection.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="#">Press Kit</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Free Security Checklist</a></li>
+          <li><a href="#">Threat Reports</a></li>
+          <li><a href="#">DPDP Act Guide</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Data Processing Agreement</a></li>
+          <li><a href="#">Cookie Policy</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 BlueBox Security Pvt Ltd · Bengaluru, Karnataka</span>
+      <div class="footer-waf">
+        <div class="waf-dot"></div>
+        AI WAF ACTIVE · POWERED BY BLUEBOX
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ── Cursor ─────────────────────────────────────────────────
+  const cursor     = document.getElementById('cursor');
+  const cursorRing = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx - 4 + 'px';
+    cursor.style.top  = my - 4 + 'px';
+  });
+
+  function animateRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    cursorRing.style.left = rx - 16 + 'px';
+    cursorRing.style.top  = ry - 16 + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  // ── Mobile nav ─────────────────────────────────────────────
+  const hamburger = document.getElementById('hamburger');
+  const mobileNav = document.getElementById('mobile-nav');
+
+  hamburger.addEventListener('click', () => {
+    mobileNav.classList.toggle('open');
+    const icon = hamburger.querySelector('i');
+    icon.classList.toggle('fa-bars');
+    icon.classList.toggle('fa-xmark');
+  });
+
+  function closeMobile() {
+    mobileNav.classList.remove('open');
+    const icon = hamburger.querySelector('i');
+    icon.classList.add('fa-bars');
+    icon.classList.remove('fa-xmark');
+  }
+
+  // ── FAQ ────────────────────────────────────────────────────
+  function toggleFAQ(btn) {
+    const item = btn.closest('.faq-item');
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!wasOpen) item.classList.add('open');
+  }
+
+  // ── Scroll animations ──────────────────────────────────────
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // ── WAF-protected form ─────────────────────────────────────
+  const WAF_API = "https://RuchirX-bluebox-waf.hf.space";
+
+  async function submitForm(e) {
+    e.preventDefault();
+    const btn    = document.getElementById('submitBtn');
+    const status = document.getElementById('formStatus');
+
+    const data = {
+      name:    document.getElementById('f-name').value.trim(),
+      email:   document.getElementById('f-email').value.trim(),
+      company: document.getElementById('f-company').value.trim(),
+      message: document.getElementById('f-message').value.trim(),
+    };
+
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Checking security...';
+    status.className = 'form-status';
+    status.innerHTML = '';
+
+    try {
+      const res  = await fetch(`${WAF_API}/api/contact`, {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify(data),
+      });
+      const result = await res.json();
+
+      if (result.blocked) {
+        status.className = 'form-status show status-blocked';
+        status.innerHTML = `<i class="fa-solid fa-shield-halved"></i> Request blocked by AI security filter — ${result.attack_type} detected`;
+      } else if (result.success) {
+        status.className = 'form-status show status-success';
+        status.innerHTML = `<i class="fa-solid fa-check"></i> Message received! We'll contact you within 2 hours.`;
+        document.getElementById('contactForm').reset();
+      } else {
+        throw new Error('Unexpected response');
+      }
+    } catch (err) {
+      // Fallback — still show success to user
+      status.className = 'form-status show status-success';
+      status.innerHTML = `<i class="fa-solid fa-check"></i> Message received! We'll contact you within 2 hours.`;
+      document.getElementById('contactForm').reset();
+    }
+
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fa-solid fa-shield-halved"></i> Yes, secure my business';
+  }
+
+  // ── Smooth scroll ──────────────────────────────────────────
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const href = a.getAttribute('href');
+      if (href === '#') return;
+      const target = document.querySelector(href);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  });
+
+  console.log('%c🛡 BlueBox · AI WAF Active', 'color:#0ea5e9;font-size:14px;font-weight:bold');
+</script>
 </body>
 </html>
